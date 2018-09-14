@@ -33,25 +33,8 @@ user_input <-data.frame(weight ,gender,dose,infusion_time,
                            init_ven)
 
 
-Diazepam <- function(user_input){
+
 library(deSolve)        
-########
-# data #
-########
-
-initial_concentration<- c(user_input$init_mu,user_input$init_ad,user_input$init_te,user_input$init_sk,
-                          user_input$init_ht,user_input$init_br,user_input$init_ki,user_input$init_re,
-                          user_input$init_st,user_input$init_spl,
-                          user_input$init_lu,user_input$init_li,user_input$init_art,user_input$init_ven)
-Kp_init <- c(0.56, 3.34, 0.76, 0.46, 0.86, 0.32, 0.73, 0.5, 0.75, 0.53, 0.71, 1.35) 
-FUB<-0.015/0.65 
-a <- 0.12 # scaling factor
-Kp <- Kp_init * a # updated Kp vector
-CL <- 64.2 # clearance
-Kp[2] <- 3.32 # Kp of adipose compartment
-dose <- user_input$dose[1] *1e06 #dose in ng
-sample_time <- c(0, 5/60, 0.25, 0.5, 0.75, 1, 1.5, 2, 3, 4, 6, 8, 10, 12, 24, 36, 48, 72) # in hours
-
 
 ######################################################
 # function 1: calculation or organ flows and volumes #
@@ -183,27 +166,35 @@ obj<-function(time,C,params){
         V_LI<-params[24]
         V_ART<-params[25]
         V_VEN<-params[26]
+        T_inf<-params[27]
+        dose <- params[28]
+        dose <- dose *1e06 #dose in ng
         
-        KP_MU<-params[27]
-        KP_AD<-params[28]
-        KP_TE<-params[29]
-        KP_SK<-params[30]
-        KP_HT<-params[31]
-        KP_BR<-params[32]
-        KP_KI<-params[33]
-        KP_RE<-params[34]
-        KP_ST<-params[35]
-        KP_SPL<-params[36]
-        KP_LU<-params[37]
-        KP_LI<-params[38]
+        Kp_init <- c(0.56, 3.34, 0.76, 0.46, 0.86, 0.32, 0.73, 0.5, 0.75, 0.53, 0.71, 1.35) 
+        a <- 0.12 # scaling factor
+        Kp <- Kp_init * a # updated Kp vector
+        Kp[2] <- 3.32 # Kp of adipose compartment
         
-        T_inf<-params[39]
-        CL<-params[41]
+        
+        
+        KP_MU<-Kp[1]
+        KP_AD<-Kp[2]
+        KP_TE<-Kp[3]
+        KP_SK<-Kp[4]
+        KP_HT<-Kp[5]
+        KP_BR<-Kp[6]
+        KP_KI<-Kp[7]
+        KP_RE<-Kp[8]
+        KP_ST<-Kp[9]
+        KP_SPL<-Kp[10]
+        KP_LU<-Kp[11]
+        KP_LI<-Kp[12]
+        CL<-64.2
         Q_HA<-params[12]
         Q_HP<-params[9]+params[10]
         Q_H<-Q_HA+Q_HP
-        f_UB<-params[40]
-        dose <- params[42]
+        f_UB<-0.015/0.65 
+       
         
         dCdt[1]<-(-Q_MU*C[1]/(KP_MU*V_MU))+(Q_MU*C[13]/V_MU)
         dCdt[2]<-(-Q_AD*C[2]/(KP_AD*V_AD))+(Q_AD*C[13]/V_AD)
@@ -238,9 +229,14 @@ obj<-function(time,C,params){
 }
 
 ##############################################
+initial_concentration<- c(user_input$init_mu,user_input$init_ad,user_input$init_te,user_input$init_sk,
+                          user_input$init_ht,user_input$init_br,user_input$init_ki,user_input$init_re,
+                          user_input$init_st,user_input$init_spl,
+                          user_input$init_lu,user_input$init_li,user_input$init_art,user_input$init_ven)
 
-params<-c(predictor(user_input$weight[1],user_input$gender[1]),Kp,user_input$infusion_time[1],FUB,CL,
-          dose) #estimated physiological parameters
+params<-c(predictor(user_input$weight[1],user_input$gender[1]),user_input$infusion_time[1],
+          user_input$dose) 
+sample_time <- c(0, 5/60, 0.25, 0.5, 0.75, 1, 1.5, 2, 3, 4, 6, 8, 10, 12, 24, 36, 48, 72) # in hours
 solution <- ode(y = initial_concentration, times = sample_time, func = obj, parms = params)
-return(solution)
-}
+solution
+

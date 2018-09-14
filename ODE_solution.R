@@ -10,27 +10,23 @@ weight <- 70 #in kg
 gender <- 0 #0 for male | 1 for female
 dose <- 10  # in mg
 infusion_time <- 5/60 #infusion time in hours
-init_mu <- 0
-init_ad <- 0
-init_te<- 0
-init_sk<- 0
-init_ht<- 0
-init_br<- 0
-init_ki<- 0
-init_re<- 0
-init_st<- 0
-init_spl<- 0
-init_lu<- 0
-init_li<- 0
-init_art<- 0
-init_ven<- 0
-
+y1 <- 0
+y2<- 0
+y3<- 0
+y4<- 0
+y5<- 0
+y6<- 0
+y7<- 0
+y8<- 0
+y9<- 0
+y10<- 0
+y11<- 0
+y12<- 0
+y13<- 0
+y14<-0
+n_comp<-14 
 user_input <-data.frame(weight ,gender,dose,infusion_time,
-                           init_mu, init_ad,init_te,init_sk,
-                           init_ht,init_br,init_ki,
-                           init_re,init_st,init_spl,
-                           init_lu,init_li,init_art,
-                           init_ven)
+                           y1,y2,y3,y4,y5,y6,y7,y8,y9,y10,y11,y12,y13,y14,n_comp)
 
 
 

@@ -225,10 +225,10 @@ obj<-function(time,C,params){
 }
 
 ##############################################
-initial_concentration<- c(user_input$init_mu,user_input$init_ad,user_input$init_te,user_input$init_sk,
-                          user_input$init_ht,user_input$init_br,user_input$init_ki,user_input$init_re,
-                          user_input$init_st,user_input$init_spl,
-                          user_input$init_lu,user_input$init_li,user_input$init_art,user_input$init_ven)
+initial_concentration<- c(user_input$y1,user_input$y2,user_input$y3,user_input$y4,
+                          user_input$y5,user_input$y6,user_input$y7,user_input$y8,
+                          user_input$y9,user_input$y10,
+                          user_input$y11,user_input$y12,user_input$y13,user_input$y14)
 
 params<-c(predictor(user_input$weight[1],user_input$gender[1]),user_input$infusion_time[1],
           user_input$dose) 

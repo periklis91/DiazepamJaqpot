@@ -10,23 +10,22 @@ weight <- 70 #in kg
 gender <- 0 #0 for male | 1 for female
 dose <- 10  # in mg
 infusion_time <- 5/60 #infusion time in hours
-y1 <- 0
-y2<- 0
-y3<- 0
-y4<- 0
-y5<- 0
-y6<- 0
-y7<- 0
-y8<- 0
-y9<- 0
-y10<- 0
-y11<- 0
-y12<- 0
-y13<- 0
-y14<-0
-n_comp<-14 
-user_input <-data.frame(weight ,gender,dose,infusion_time,
-                           y1,y2,y3,y4,y5,y6,y7,y8,y9,y10,y11,y12,y13,y14,n_comp)
+C0_MU <- 0
+C0_AD <- 0
+C0_GO <- 0
+C0_SK <- 0
+C0_HT <- 0
+C0_BR <- 0
+C0_KI <- 0
+C0_RE <- 0
+C0_ST <- 0
+C0_IN <- 0
+C0_LU <- 0
+C0_LI <- 0
+C0_ART <- 0
+C0_VEN <- 0
+user_input <-data.frame(weight ,gender, dose, infusion_time, C0_MU, C0_AD, C0_GO, C0_SK, C0_HT, C0_BR, C0_KI,
+                      C0_RE, C0_ST, C0_IN, C0_LU, C0_LI, C0_ART, C0_VEN )
 
 
 
@@ -225,10 +224,10 @@ obj<-function(time,C,params){
 }
 
 ##############################################
-initial_concentration<- c(user_input$y1,user_input$y2,user_input$y3,user_input$y4,
-                          user_input$y5,user_input$y6,user_input$y7,user_input$y8,
-                          user_input$y9,user_input$y10,
-                          user_input$y11,user_input$y12,user_input$y13,user_input$y14)
+initial_concentration<- c(user_input$CO_MU, user_input$C0_AD,user_input$C0_GO, user_input$C0_SK, user_input$C0_HT,
+                          user_input$C0_BR, user_input$C0_KI, user_input$C0_RE, user_input$C0_ST,
+                          user_input$C0_IN, user_input$C0_LU,
+                          user_input$C0_LI, user_input$C0_ART, user_input$C0_VEN)
 
 params<-c(predictor(user_input$weight[1],user_input$gender[1]),user_input$infusion_time[1],
           user_input$dose) 

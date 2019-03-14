@@ -224,7 +224,7 @@ obj<-function(time,C,params){
 }
 
 ##############################################
-initial_concentration<- c(user_input$CO_MU, user_input$C0_AD,user_input$C0_GO, user_input$C0_SK, user_input$C0_HT,
+initial_concentration<- c(user_input$C0_MU, user_input$C0_AD,user_input$C0_GO, user_input$C0_SK, user_input$C0_HT,
                           user_input$C0_BR, user_input$C0_KI, user_input$C0_RE, user_input$C0_ST,
                           user_input$C0_IN, user_input$C0_LU,
                           user_input$C0_LI, user_input$C0_ART, user_input$C0_VEN)

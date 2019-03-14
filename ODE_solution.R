@@ -231,6 +231,9 @@ initial_concentration<- c(user_input$C0_MU, user_input$C0_AD,user_input$C0_GO, u
 
 params<-c(predictor(user_input$weight[1],user_input$gender[1]),user_input$infusion_time[1],
           user_input$dose) 
+
+comp_names <- c("MU", "AD", "GO" , "SK", "HT", "BR", "KI", "RE", "ST", "IN","LU","LI","ART","VEN")
+
 sample_time <- c(0, 5/60, 0.25, 0.5, 0.75, 1, 1.5, 2, 3, 4, 6, 8, 10, 12, 24, 36, 48, 72) # in hours
 solution <- ode(y = initial_concentration, times = sample_time, func = obj, parms = params)
 solution

@@ -1,6 +1,4 @@
-
-
-
+library(deSolve)  
 
 ##############
 # User input #
@@ -27,15 +25,18 @@ C0_VEN <- 0
 user_input <-data.frame(weight ,gender, dose, infusion_time, C0_MU, C0_AD, C0_GO, C0_SK, C0_HT, C0_BR, C0_KI,
                       C0_RE, C0_ST, C0_IN, C0_LU, C0_LI, C0_ART, C0_VEN )
 
+#####################
+# Compartment names #
+#####################
 
-
-library(deSolve)        
+comp_names <- c("MU", "AD", "GO" , "SK", "HT", "BR", "KI", "RE", "ST", "IN","LU","LI","ART","VEN")
+      
 
 ######################################################
-# function 1: calculation or organ flows and volumes #
+# Calculation or organ flows and volumes #
 ######################################################
 
-predictor<-function(w,gender){
+covariates <- function(w,gender){
         k1<-c(9.61e-02,-4.88e-06,3.05e-10,-3.62e-15,1.22e-20,0,0.17)
         k2<-c(3.95e-02,1.59e-05,-6.99e-10,1.09e-14,-5.26e-20,0,0.05)
         k3<-c(1.67e-04,6.2e-10,-6.54e-13,2.48e-17,-2.85e-22,1.03e-27,0.001)
@@ -125,10 +126,10 @@ predictor<-function(w,gender){
 
 
 #################
-# ODEs function #
+# ODEs system   #
 #################
 
-obj<-function(time,C,params){
+odes <- function(time,C,params){
         
         dCdt<-rep(0,14)
         
@@ -229,12 +230,11 @@ initial_concentration<- c(user_input$C0_MU, user_input$C0_AD,user_input$C0_GO, u
                           user_input$C0_IN, user_input$C0_LU,
                           user_input$C0_LI, user_input$C0_ART, user_input$C0_VEN)
 
-params<-c(predictor(user_input$weight[1],user_input$gender[1]),user_input$infusion_time[1],
+params<-c(covariates(user_input$weight[1],user_input$gender[1]),user_input$infusion_time[1],
           user_input$dose) 
 
-comp_names <- c("MU", "AD", "GO" , "SK", "HT", "BR", "KI", "RE", "ST", "IN","LU","LI","ART","VEN")
 
 sample_time <- c(0, 5/60, 0.25, 0.5, 0.75, 1, 1.5, 2, 3, 4, 6, 8, 10, 12, 24, 36, 48, 72) # in hours
-solution <- ode(y = initial_concentration, times = sample_time, func = obj, parms = params)
+solution <- ode(y = initial_concentration, times = sample_time, func = odes, parms = params)
 solution
 

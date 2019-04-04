@@ -36,7 +36,7 @@ comp_names <- c("MU", "AD", "GO" , "SK", "HT", "BR", "KI", "RE", "ST", "IN","LU"
 # Calculation or organ flows and volumes #
 ######################################################
 
-covariates <- function(parsr){
+covariates <- function(pars){
   w = pars[1]
   gender = pars[2]
   k1<-c(9.61e-02,-4.88e-06,3.05e-10,-3.62e-15,1.22e-20,0,0.17)

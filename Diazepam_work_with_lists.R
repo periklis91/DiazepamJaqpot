@@ -228,4 +228,5 @@ return(solution)
 #solution
 
 #plot(solution[,1],solution[,15], type = "l")
-#deploy.pbpk(user_input, predicted.feats, create.params, create.inits, create.events,custom.func, ode.func)
+deploy.pbpk(user_input, predicted.feats, create.params, create.inits, create.events,custom.func, ode.func, 
+            method = "lsodes", rtol = 1e-06)

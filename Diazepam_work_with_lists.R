@@ -6,8 +6,8 @@ library(deSolve)
 
 weight <- 70 #in kg
 gender <- 0 #0 for male | 1 for female
-dose <- c(10,5,115)  # in mg
-times <- 0.00001#c(1,2,15) #infusion time in hours
+dose <- c(10,20)  # in mg
+times <- c(0,10) #infusion time in hours
 compartment <-  "Ven"
 
 user_input <-list("weight"=weight ,"gender" = gender, "dose" = dose, "times" = times, 
@@ -20,87 +20,87 @@ predicted.feats <- c("Mu", "Ad", "Go", "Sk", "Ht", "Br", "Ki", "Re", "St", "Spl"
 
 create.params <- function(input){
   with( as.list(input),{
-  
-  k1<-c(9.61e-02,-4.88e-06,3.05e-10,-3.62e-15,1.22e-20,0,0.17)
-  k2<-c(3.95e-02,1.59e-05,-6.99e-10,1.09e-14,-5.26e-20,0,0.05)
-  k3<-c(1.67e-04,6.2e-10,-6.54e-13,2.48e-17,-2.85e-22,1.03e-27,0.001)
-  k4<-c(1.07e-01,-3.26e-06,6.11e-11,-5.43e-16,1.83e-21,0,0.05)
-  k5<-c(8.53e-03,-4.07e-07,1.4e-11,-1.9e-16,1.05e-21,-1.94e-27,0.04)
-  k6<-c(1.19e-01,-3.51e-06,4.28e-11,-1.82e-16,0,0,0.12)
-  k7<-c(7.31e-03,-8.29e-08,5.71e-13,0,0,0,0.19)
-  k8<-rep(0,6)
-  k9<-c(1.88e-03,8.76e-08,-2.52e-12,1.86e-17,0,0,0.01)
-  k10<-c(1.74e-02,-5.3e-07,1.18e-11,-6.74e-17,0,0,0.14)
-  k11<-c(1.67e-02,-9.96e-08,-1.09e-13,1.13e-17,0,0,1)
-  k12<-c(3.49e-02,-3.23e-07,2.13e-12,0,0,0,0.065)
-  k13<-c(3.66e-02,-3.44e-07,5.00e-12, -2.59e-17,0.0,0.0)
-  k14<-c(5.49e-02,-5.15e-07, 7.50e-12,-3.87e-17,0.0,0.0)
-  
-  k1_W<-c(1.17e-01,-3.59e-06,3.19e-10,-3.55e-15,-7.58e-22,0.0)
-  k2_W<-c(5.91e-02,1.20e-05,-5.80e-10,1.12e-14,-6.36e-20,0.0)
-  k3_W<-c(1.94e-04,-8.32e-09,3.15e-13,0.0,0.0,0.0)
-  k4_W<-c(9.54e-02,-1.7e-06,-1.64e-13,2.64e-16,-1.49e-21,0.0)
-  k5_W<-c(5.72e-03,-1.02e-07,2.53e-12,-2.71e-17,9.29e-23,0.0)
-  k6_W<-c(1.12e-01,-3.33e-06,4.04e-11,-1.70e-16,0.0,0.0)
-  k7_W<-c(8.04e-03,-1.38e-07,2.19e-12,-1.34e-17,0.0,0.0)
-  k8_W<-rep(0,6)
-  k9_W<-c(1.88e-03,8.76e-08,-2.52e-12,1.86e-17,0.0,0.0)
-  k10_W<-c(1.89e-02,-6.62e-07,1.56e-11,-9.87e-17,0.0,0.0)
-  k11_W<-c(1.74e-02,-7.14e-08,-6.78e-14,0.0,0.0,0.0)
-  k12_W<-c(3.59e-02,-4.76e-07,8.50e-12,-5.45e-17,0.0,0.0)
-  k13_W<-c(3.66e-02,-3.44e-07,5.00e-12, -2.59e-17,0.0,0.0)
-  k14_W<-c(5.49e-02,-5.15e-07, 7.50e-12,-3.87e-17,0.0,0.0)
-  
-  #density<-c(1.041,0.916,1,1,1.03,1.035,1.05,1,1.05,1.042,1.05,1,1,1)#in kg/L
-  density <- rep(1,14)
-  flow_frac<-c(0.17,0.05,0.001,0.05,0.04,0.12,0.19,0,0.01,0.14,1,0.065)
-  
-  const<-list(k1,k2,k3,k4,k5,k6,k7,k8,k9,k10,k11,k12,k13,k14)
-  const_W<-list(k1_W,k2_W,k3_W,k4_W,k5_W,k6_W,k7_W,k8_W,k9_W,k10_W,k11_W,k12_W,k13_W,k14_W)
-  vol<-rep(0,14)
-  flow<-rep(0,12)
-  w <- weight
-  TF<-(187*(w)^0.81)*60/1000 #Total flow
-
-  if (gender==0){
-    if (w>75){
-      w<-75*1000
-    }else{
-      w<-w*1000
+    
+    k1<-c(9.61e-02,-4.88e-06,3.05e-10,-3.62e-15,1.22e-20,0,0.17)
+    k2<-c(3.95e-02,1.59e-05,-6.99e-10,1.09e-14,-5.26e-20,0,0.05)
+    k3<-c(1.67e-04,6.2e-10,-6.54e-13,2.48e-17,-2.85e-22,1.03e-27,0.001)
+    k4<-c(1.07e-01,-3.26e-06,6.11e-11,-5.43e-16,1.83e-21,0,0.05)
+    k5<-c(8.53e-03,-4.07e-07,1.4e-11,-1.9e-16,1.05e-21,-1.94e-27,0.04)
+    k6<-c(1.19e-01,-3.51e-06,4.28e-11,-1.82e-16,0,0,0.12)
+    k7<-c(7.31e-03,-8.29e-08,5.71e-13,0,0,0,0.19)
+    k8<-rep(0,6)
+    k9<-c(1.88e-03,8.76e-08,-2.52e-12,1.86e-17,0,0,0.01)
+    k10<-c(1.74e-02,-5.3e-07,1.18e-11,-6.74e-17,0,0,0.14)
+    k11<-c(1.67e-02,-9.96e-08,-1.09e-13,1.13e-17,0,0,1)
+    k12<-c(3.49e-02,-3.23e-07,2.13e-12,0,0,0,0.065)
+    k13<-c(3.66e-02,-3.44e-07,5.00e-12, -2.59e-17,0.0,0.0)
+    k14<-c(5.49e-02,-5.15e-07, 7.50e-12,-3.87e-17,0.0,0.0)
+    
+    k1_W<-c(1.17e-01,-3.59e-06,3.19e-10,-3.55e-15,-7.58e-22,0.0)
+    k2_W<-c(5.91e-02,1.20e-05,-5.80e-10,1.12e-14,-6.36e-20,0.0)
+    k3_W<-c(1.94e-04,-8.32e-09,3.15e-13,0.0,0.0,0.0)
+    k4_W<-c(9.54e-02,-1.7e-06,-1.64e-13,2.64e-16,-1.49e-21,0.0)
+    k5_W<-c(5.72e-03,-1.02e-07,2.53e-12,-2.71e-17,9.29e-23,0.0)
+    k6_W<-c(1.12e-01,-3.33e-06,4.04e-11,-1.70e-16,0.0,0.0)
+    k7_W<-c(8.04e-03,-1.38e-07,2.19e-12,-1.34e-17,0.0,0.0)
+    k8_W<-rep(0,6)
+    k9_W<-c(1.88e-03,8.76e-08,-2.52e-12,1.86e-17,0.0,0.0)
+    k10_W<-c(1.89e-02,-6.62e-07,1.56e-11,-9.87e-17,0.0,0.0)
+    k11_W<-c(1.74e-02,-7.14e-08,-6.78e-14,0.0,0.0,0.0)
+    k12_W<-c(3.59e-02,-4.76e-07,8.50e-12,-5.45e-17,0.0,0.0)
+    k13_W<-c(3.66e-02,-3.44e-07,5.00e-12, -2.59e-17,0.0,0.0)
+    k14_W<-c(5.49e-02,-5.15e-07, 7.50e-12,-3.87e-17,0.0,0.0)
+    
+    #density<-c(1.041,0.916,1,1,1.03,1.035,1.05,1,1.05,1.042,1.05,1,1,1)#in kg/L
+    density <- rep(1,14)
+    flow_frac<-c(0.17,0.05,0.001,0.05,0.04,0.12,0.19,0,0.01,0.14,1,0.065)
+    
+    const<-list(k1,k2,k3,k4,k5,k6,k7,k8,k9,k10,k11,k12,k13,k14)
+    const_W<-list(k1_W,k2_W,k3_W,k4_W,k5_W,k6_W,k7_W,k8_W,k9_W,k10_W,k11_W,k12_W,k13_W,k14_W)
+    vol<-rep(0,14)
+    flow<-rep(0,12)
+    w <- weight
+    TF<-(187*(w)^0.81)*60/1000 #Total flow
+    
+    if (gender==0){
+      if (w>75){
+        w<-75*1000
+      }else{
+        w<-w*1000
+      }
+      co<-const
+      for (i in 1:14){
+        vol[i]<-(co[[i]][1]+co[[i]][2]*w+co[[i]][3]*w^2+co[[i]][4]*w^3+co[[i]][5]*w^4+co[[i]][6]*w^5)
+        vol[i]<-vol[i]*weight/density[i]
+      }
+    }else if (gender==1){
+      if (w>65){
+        w<-65*1000
+      }else{
+        w<-w*1000
+      }
+      co<-const_W
+      for (i in 1:14){
+        vol[i]<-(co[[i]][1]+co[[i]][2]*w+co[[i]][3]*w^2+co[[i]][4]*w^3+co[[i]][5]*w^4+co[[i]][6]*w^5)
+        vol[i]<-vol[i]*weight/density[i]
+      }
     }
-    co<-const
-    for (i in 1:14){
-      vol[i]<-(co[[i]][1]+co[[i]][2]*w+co[[i]][3]*w^2+co[[i]][4]*w^3+co[[i]][5]*w^4+co[[i]][6]*w^5)
-      vol[i]<-vol[i]*weight/density[i]
+    for (i in 1:12){
+      flow[i]<-TF*flow_frac[i]
     }
-  }else if (gender==1){
-    if (w>65){
-      w<-65*1000
-    }else{
-      w<-w*1000
-    }
-    co<-const_W
-    for (i in 1:14){
-      vol[i]<-(co[[i]][1]+co[[i]][2]*w+co[[i]][3]*w^2+co[[i]][4]*w^3+co[[i]][5]*w^4+co[[i]][6]*w^5)
-      vol[i]<-vol[i]*weight/density[i]
-    }
-  }
-  for (i in 1:12){
-    flow[i]<-TF*flow_frac[i]
-  }
-  flow[8]<-TF-sum(flow)+TF
-  vol[8]<-weight-sum(vol)
-  combine<-c(flow,vol)
-  
-  return( list("Q_MU" = combine[1], "Q_AD" = combine[2], "Q_TE" = combine[3], "Q_SK" = combine[4],
-               "Q_HT" = combine[5],"Q_BR" = combine[6], "Q_KI" = combine[7],  "Q_RE" = combine[8], 
-               "Q_ST" = combine[9], "Q_SPL" = combine[10], "Q_LU" = combine[11], "Q_LI"=combine[12], 
-               "Q_ART" = combine[11], "Q_VEN" = combine[11], "V_MU" = combine[13], "V_AD" = combine[14], 
-               "V_TE" = combine[15], "V_SK" = combine[16], "V_HT" = combine[17],"V_BR" = combine[18], 
-               "V_KI" = combine[19], "V_RE"=combine[20], "V_ST"=combine[21],"V_SPL"=combine[22],
-               "V_LU"=combine[23], "V_LI"=combine[24], "V_ART"=combine[25], "V_VEN"=combine[26], 
-               "dose" = dose*1e06, "weight" = weight, "gender" = gender, "times" = times,
-               "compartment" = compartment))
+    flow[8]<-TF-sum(flow)+TF
+    vol[8]<-weight-sum(vol)
+    combine<-c(flow,vol)
+    
+    return( list("Q_MU" = combine[1], "Q_AD" = combine[2], "Q_TE" = combine[3], "Q_SK" = combine[4],
+                 "Q_HT" = combine[5],"Q_BR" = combine[6], "Q_KI" = combine[7],  "Q_RE" = combine[8], 
+                 "Q_ST" = combine[9], "Q_SPL" = combine[10], "Q_LU" = combine[11], "Q_LI"=combine[12], 
+                 "Q_ART" = combine[11], "Q_VEN" = combine[11], "V_MU" = combine[13], "V_AD" = combine[14], 
+                 "V_TE" = combine[15], "V_SK" = combine[16], "V_HT" = combine[17],"V_BR" = combine[18], 
+                 "V_KI" = combine[19], "V_RE"=combine[20], "V_ST"=combine[21],"V_SPL"=combine[22],
+                 "V_LU"=combine[23], "V_LI"=combine[24], "V_ART"=combine[25], "V_VEN"=combine[26], 
+                 "dose" = dose*1e06, "weight" = weight, "gender" = gender, "times" = times,
+                 "compartment" = compartment))
   })
 }
 
@@ -133,13 +133,13 @@ create.events<- function(parameters){
     
     ldose <- length(dose)
     ltimes <- length(times)
-    
     addition <- dose/(V_VEN*1000)
-    if (ltimes == ldose){
-      events <- list(data = rbind(data.frame(var = c(compartment),  time = times, 
-                                             value = addition, method = c("add")) ))
+    
+    if (ltimes != ldose){
+        stop("The times when the drug is injected should be equal in number to the doses")
     }else{
-      stop("The times when the drug is injected should be equal in number to the doses")
+        events <- list(data = rbind(data.frame(var = c(compartment),  time = times, 
+                                             value = addition, method = c("add")) ))
     }
     
     
@@ -217,16 +217,17 @@ ode.func <- function(time, Initial.values, Parameters, custom.func){
 
 ##############################################
 
-sample_time <- c(0, 5/60, 0.25, 0.5, 0.75, 1, 1.5, 2, 3, 4, 6, 8, 10, 12, 24, 36, 48, 72, 100) # in hours
-#sample_time <- seq(0,10, by=1)
+#sample_time <- c(0, 5/60, 0.25, 0.5, 0.75, 1, 1.5, 2, 3, 4, 6, 8, 10, 12, 24, 36, 48, 72, 100) # in hours
+sample_time <- seq(0,20, by=0.01)
 f <- function(...){
   expr <-list(...)
   solution <- do.call(ode,c(list(times = sample_time,  func = ode.func, y = inits, parms = params, 
-                custom.func = custom.func, method="lsodes",  events = events), expr))
-return(solution)
+                                 custom.func = custom.func, method="lsodes",  events = events), expr))
+  return(solution)
 }
-#solution
+f()
+solution <- f()
 
-#plot(solution[,1],solution[,15], type = "l")
-deploy.pbpk(user_input, predicted.feats, create.params, create.inits, create.events,custom.func, ode.func, 
-            method = "lsodes", rtol = 1e-06)
+plot(solution[,1],solution[,15], type = "l")
+#deploy.pbpk(user_input, predicted.feats, create.params, create.inits, create.events,custom.func, ode.func, 
+ #           method = "lsodes", rtol = 1e-06)
